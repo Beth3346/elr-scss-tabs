@@ -1,0 +1,152 @@
+// Tabbed Content
+
+@mixin elr-tabs($config: ()) {
+    $config: extend((
+        bg-color: $background-color,
+        color: text-color,
+        width: 100%,
+        border-radius: 5px
+    ), $config);
+
+    $bg-color: map-get($config, bg-color);
+    $color: map-get($config, color);
+    $border-radius: map-get($config, border-radius);
+    $width: map-get($config, width);
+
+    .elr-tab-holder {
+        @include elr-tab(
+            $config: (
+                bg-color: $bg-color,
+                color: $color,
+                border-radius: $border-radius
+            )
+        );
+    }
+
+    .elr-tab-list {
+        @include elr-tab-list($config: (border-radius: $border-radius));
+    }
+}
+
+@mixin elr-tab($config: ()) {
+    $config: extend((
+        bg-color: $background-color,
+        color: $text-color,
+        border-radius: 5px
+    ), $config);
+
+    $bg-color: map-get($config, bg-color);
+    $color: map-get($config, color);
+    $border-radius: map-get($config, border-radius);
+
+    border: 1px solid $light-grey;
+    border-radius: 0 $border-radius $border-radius;
+    padding: 20px 30px;
+    background-color: $bg-color;
+
+    figure {
+        @include elr-rectangle(
+            $config: (
+                width: 200px,
+                height: auto
+            )
+        );
+        float: left;
+        margin: 10px 20px 0 0;
+    }
+
+    img {
+        @include elr-rounded-image($config: (border-radius: $border-radius));
+    }
+
+    section {
+        display: none;
+    }
+
+    .elr-tab-title {
+        font-size: to-rems(24px);
+        color: $color;
+        border-bottom: 1px solid $light-grey;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: to-rems(14px);
+        color: $color;
+    }
+
+    &:first-child {
+        display: block;
+    }
+}
+
+@mixin elr-tab-list($config: ()) {
+    $config: extend((
+        border-radius: 5px
+    ), $config);
+
+    $border-radius: map-get($config, border-radius);
+
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    position: relative;
+    top: 1px;
+
+    ul {
+        @include elr-clearfix;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        padding: 0;
+        margin: 0 2px 0 0;
+        list-style: none;
+        display: block;
+        float: left;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    a {
+        font-size: to-rems(14px);
+        padding: 5px 15px;
+        width: 100%;
+        text-align: left;
+        display: block;
+        text-decoration: none;
+        border: 1px solid $link-color;
+        border-bottom-color: $light-grey;
+        border-radius: $border-radius $border-radius 0 0;
+        color: $white;
+        background-color: $link-color;
+        transition: all, .3s;
+
+        &.active {
+            color: $link-color;
+            border-color: $light-grey;
+            background-color: $white;
+            border-bottom-color: $white;
+
+            &:hover,
+            &:focus {
+                border-bottom-color: $white;
+            }
+        }
+
+        &.text-disabled {
+            color: $light-grey;
+            cursor: not-allowed;
+        }
+
+        &:hover,
+        &:focus {
+            color: $link-color;
+            background-color: $white;
+            border-color: $light-grey;
+        }
+    }
+}
